@@ -20,10 +20,21 @@ public class Gun : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Shoot();
+            //Shoot();
+            MakeRagdoll();
         }
     }
 
+    void MakeRagdoll()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(camera.position, camera.forward, out hit))
+        {
+            Model ragdoll = hit.transform.gameObject.GetComponentInParent<Model>();
+            if (ragdoll != null)
+                ragdoll.ragdollOn = true;
+        }
+    }
     void Shoot()
     {
         RaycastHit hit;
