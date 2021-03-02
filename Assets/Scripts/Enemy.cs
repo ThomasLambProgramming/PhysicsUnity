@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour
 
     public void ApplyExplosion(Vector3 direction)
     {
+        ragdollOn = true;
         ChestBody.AddForce(direction);
     }
     // Update is called once per frame

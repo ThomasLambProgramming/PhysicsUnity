@@ -22,7 +22,6 @@ public class Grenade : MonoBehaviour
                     float CollisionDistance = Vector3.Distance(transform.position, c.transform.position);
                     float forceAmount = ExplosionForce / CollisionDistance;
                     Vector3 force = Vector3.Normalize(c.transform.position - transform.position) * forceAmount;
-                    enemy.ragdollOn = true;
                     enemy.ApplyExplosion(force);
                 }
             }

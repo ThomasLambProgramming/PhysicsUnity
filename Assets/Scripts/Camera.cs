@@ -8,6 +8,8 @@ public class Camera : MonoBehaviour
     public float mouseSensVertical = 100.0f;
     public Transform player;
     private float xRotation = 0f;
+    private bool followMouse = true;
+    
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -16,13 +18,22 @@ public class Camera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensVertical * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensHorizontal * Time.deltaTime;
+        if (followMouse)
+        {
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensVertical * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensHorizontal * Time.deltaTime;
+            xRotation -= mouseY * Time.deltaTime;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        player.Rotate(Vector3.up * mouseX);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            player.Rotate(Vector3.up * (mouseX * Time.deltaTime));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            followMouse = !followMouse;
+            Cursor.lockState = CursorLockMode.Locked;
+
+        }
     }
 }
