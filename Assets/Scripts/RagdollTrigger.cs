@@ -7,7 +7,7 @@ public class RagdollTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Model ragdoll = other.gameObject.GetComponentInParent<Model>();
+        Enemy ragdoll = other.gameObject.GetComponentInParent<Enemy>();
         if (ragdoll != null)
             ragdoll.ragdollOn = true;
     }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Model : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     private Animator animator = null;
     public List<Rigidbody> Rigidbodies = new List<Rigidbody>();
-
+    [SerializeField] Rigidbody ChestBody;
     public bool ragdollOn
     {
         get
@@ -32,6 +32,10 @@ public class Model : MonoBehaviour
         }
     }
 
+    public void ApplyExplosion(Vector3 direction)
+    {
+        ChestBody.AddForce(direction);
+    }
     // Update is called once per frame
     void Update()
     {

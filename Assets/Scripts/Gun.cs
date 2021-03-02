@@ -30,7 +30,7 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(camera.position, camera.forward, out hit))
         {
-            Model ragdoll = hit.transform.gameObject.GetComponentInParent<Model>();
+            Enemy ragdoll = hit.transform.gameObject.GetComponentInParent<Enemy>();
             if (ragdoll != null)
                 ragdoll.ragdollOn = true;
         }

@@ -2115,6 +2115,7 @@ MonoBehaviour:
   - {fileID: 2752563582877485713}
   - {fileID: 2752563583428711012}
   - {fileID: 2752563583093777583}
+  ChestBody: {fileID: 2752563582244046983}
 --- !u!1 &6216205115304340298
 GameObject:
   m_ObjectHideFlags: 0
