@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    public GameObject cubeTest;
-    public Transform camera;
+    //public GameObject cubeTest;
+    public new Transform camera;
     public Transform feetSpawn;
     
     private Vector3 spawnPos;
@@ -14,7 +14,7 @@ public class Gun : MonoBehaviour
     public float spawnRate = 4;
     public float distanceFromPlayer = 1;
     
-    public float damage = 10f;
+    public float forceOfBullet = 10f;
     public float range = 1000f;
     void Update()
     {
@@ -32,7 +32,22 @@ public class Gun : MonoBehaviour
         {
             Enemy ragdoll = hit.transform.gameObject.GetComponentInParent<Enemy>();
             if (ragdoll != null)
+            {
                 ragdoll.ragdollOn = true;
+                Vector3 force = camera.forward * forceOfBullet;
+                hit.rigidbody.AddForceAtPosition(force,hit.point);
+            }
+            if (ragdoll == null)
+            {
+                Rigidbody temp = hit.rigidbody;
+                if (temp != null)
+                {
+                    Vector3 direction = Vector3.Normalize(transform.position - temp.transform.position);
+                    Vector3 move = direction * forceOfBullet;
+                    temp.AddForceAtPosition(-move, hit.point);
+                    Destroy(hit.transform.gameObject, 0.5f);
+                }
+            }
         }
     }
     //this is a weird cube spawner thing i made, left for fun but not needed

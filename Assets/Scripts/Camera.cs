@@ -20,8 +20,8 @@ public class Camera : MonoBehaviour
     {
         if (followMouse)
         {
-            float mouseX = Input.GetAxis("Mouse X") * mouseSensVertical * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * mouseSensHorizontal * Time.deltaTime;
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensVertical;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensHorizontal;
             xRotation -= mouseY * Time.deltaTime;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
@@ -32,7 +32,10 @@ public class Camera : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             followMouse = !followMouse;
-            Cursor.lockState = CursorLockMode.Locked;
+            if (followMouse == true)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
 
         }
     }

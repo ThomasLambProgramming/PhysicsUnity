@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
     //as i am not doing any sqr roots to make the jump force be equal to the y axis height the force has to be
     //a big number
     public float jumpForce = 10.0f;
-
+    //Since player uses raycasts I cant have a invis wall to stop the player from running onto the spawning floor
+    //so i have to limit its postition
+    public float zLimit = -13;
 
     public Vector3 velocity = new Vector3(0,0,0);
     bool isGrounded = true;
@@ -34,6 +36,10 @@ public class Player : MonoBehaviour
             velocity.y = -1.0f;
         
         Vector3 move = transform.right * x + transform.forward * z;
+        if (transform.position.z > zLimit && move.z > 0)
+        {
+            move.z = 0f;
+        }
         controller.Move(move * (speed * Time.deltaTime));
 
         

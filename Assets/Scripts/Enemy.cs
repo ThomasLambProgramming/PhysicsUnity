@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     private Animator animator = null;
     public List<Rigidbody> Rigidbodies = new List<Rigidbody>();
-    [SerializeField] Rigidbody ChestBody;
+    [SerializeField] Rigidbody ChestBody = null;
     public bool ragdollOn
     {
         get
@@ -36,10 +36,5 @@ public class Enemy : MonoBehaviour
     {
         ragdollOn = true;
         ChestBody.AddForce(direction);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
