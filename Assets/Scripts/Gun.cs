@@ -44,18 +44,28 @@ public class Gun : MonoBehaviour
                 ragdoll.ragdollOn = true;
                 Vector3 force = camera.forward * forceOfBullet;
                 hit.rigidbody.AddForceAtPosition(force,hit.point);
+                spawner.hitAmount++;
             }
             if (ragdoll == null)
             {
                 Rigidbody temp = hit.rigidbody;
                 if (temp != null)
                 {
-                    Vector3 direction = Vector3.Normalize(transform.position - temp.transform.position);
-                    Vector3 move = direction * forceOfBullet;
-                    temp.AddForceAtPosition(-move, hit.point);
-                    Destroy(hit.transform.gameObject, 0.5f);
+                    if (hit.transform.tag == "Lights")
+                    {
+                        Vector3 direction = Vector3.Normalize(transform.position - hit.transform.position);
+                        Vector3 move = direction * forceOfBullet;
+                        hit.rigidbody.AddForceAtPosition(-move, hit.point);
+                    }
+                    else
+                    {
+                        Vector3 direction = Vector3.Normalize(transform.position - temp.transform.position);
+                        Vector3 move = direction * forceOfBullet;
+                        temp.AddForceAtPosition(-move, hit.point);
+                        Destroy(hit.transform.gameObject, 0.5f);
+                        spawner.hitAmount++;
+                    }
                 }
-
                 if (temp == null)
                 {
                     ButtonLogic button = hit.transform.gameObject.GetComponentInParent<ButtonLogic>();
@@ -114,6 +124,11 @@ public class Gun : MonoBehaviour
                         if (button.isMouseYDown)
                         {
                             cam.mouseSensVertical -= 150f;
+                        }
+
+                        if (button.isExit)
+                        {
+                            Application.Quit();
                         }
                     }
                 }

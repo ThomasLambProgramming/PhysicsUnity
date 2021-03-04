@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
@@ -21,12 +23,24 @@ public class Spawner : MonoBehaviour
     private float zMax = 20f;
 
     private float yMin = 2f;
-    private float yMax = 14f;
+    private float yMax = 7f;
 
     public bool SpawnRun = true;
     public bool MiddleSpawn = false;
     public bool TargetPractice = false;
+    public float waveTime = 10f;
+    private float waveTimer = 0f;
+    public bool Startwave = false;
+    public bool PlayerLeftSpawner = true;
+    public bool WaveOver = true;
+    public float recentAccuracy = 0f;
+    public float clicks = 0.0f;
+    public float EnemysSpawned = 0f;
+    
+    public float hitAmount = 0f;
 
+    public GameObject ResultGameObject = null;
+    public TextMeshProUGUI winText = null;
     void Start()
     {
         ActualSpawnTimer = SpawnTimer;
@@ -36,16 +50,58 @@ public class Spawner : MonoBehaviour
     {
         
         timer += Time.deltaTime;
+        if (Startwave)
+            waveTimer += Time.deltaTime;
+        if (Input.GetButtonDown("Fire1") && Startwave)
+        {
+            clicks++;
+        }
         GetInput();
         if (timer > ActualSpawnTimer)
         {
             timer = 0f;
-            if (SpawnRun)
-                RunSpawn();
-            else if (MiddleSpawn)
-                SpawnMiddle();
-            else if (TargetPractice)
-                SpawnTarget();
+            if (Startwave)
+            {
+                if (waveTimer > waveTime)
+                {
+                    waveTimer = 0f;
+                    Startwave = false;
+                    WaveOver = true;
+                    Debug.Log((int)(hitAmount / clicks * 100));
+                    if (winText != null)
+                    {
+                        ResultGameObject.SetActive(true);
+                        if (clicks == 0 || hitAmount == 0)
+                        {
+                            winText.text = "Your accuracy was 0 you hit nothing\n"
+                                           + "The amount of Enemies was " + (int)EnemysSpawned + "\n " +
+                                           "Please press enter to remove text";
+                        }
+                        else
+                        {
+                            winText.text = "Your accuracy was " + (int) (hitAmount / clicks * 100) + "%\n"
+                                           + "The amount of Enemies was " + (int) EnemysSpawned + "\n " +
+                                           "Please press enter to remove text";
+                        }
+                    }
+                }
+                else
+                {
+                    if (SpawnRun)
+                        RunSpawn();
+                    else if (MiddleSpawn)
+                        SpawnMiddle();
+                    else if (TargetPractice)
+                        SpawnTarget();
+                    EnemysSpawned++;
+                }
+            }
+        }
+        //-33 -55 -30 0 
+        if (Input.GetKeyDown(KeyCode.Return) && ResultGameObject.activeInHierarchy)
+        {
+            ResultGameObject.SetActive(false);
+            winText.text = "";
         }
     }
 
