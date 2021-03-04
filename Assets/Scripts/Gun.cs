@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    public Spawner spawner = null;
+    public GameObject CameraGameObject = null;
+    private Camera cam = null;
+
     //public GameObject cubeTest;
     public new Transform camera;
     public Transform feetSpawn;
@@ -25,6 +29,10 @@ public class Gun : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        cam = CameraGameObject.GetComponent<Camera>();
+    }
     void MakeRagdoll()
     {
         RaycastHit hit;
@@ -46,6 +54,68 @@ public class Gun : MonoBehaviour
                     Vector3 move = direction * forceOfBullet;
                     temp.AddForceAtPosition(-move, hit.point);
                     Destroy(hit.transform.gameObject, 0.5f);
+                }
+
+                if (temp == null)
+                {
+                    ButtonLogic button = hit.transform.gameObject.GetComponentInParent<ButtonLogic>();
+                    if (button != null)
+                    {
+                        if (button.isRunSpawn)
+                        {
+                            spawner.SpawnRun = true;
+                            spawner.MiddleSpawn = false;
+                            spawner.TargetPractice = false;
+                        }
+                        if (button.isMiddleSpawn)
+                        {
+                            spawner.SpawnRun = false;
+                            spawner.MiddleSpawn = true;
+                            spawner.TargetPractice = false;
+                        }
+                        if (button.isTargetSpawn)
+                        {
+                            spawner.SpawnRun = false;
+                            spawner.MiddleSpawn = false;
+                            spawner.TargetPractice = true;
+                        }
+
+                        if (button.isSpawnIncrease)
+                        {
+                            spawner.ActualSpawnTimer -= 0.4f;
+                        }
+
+                        if (button.isSpawnDecrease)
+                        {
+                            spawner.ActualSpawnTimer += 0.4f;
+                        }
+
+                        if (button.isSuperSpawn)
+                        {
+                            spawner.ActualSpawnTimer = 0.0f;
+                        }
+
+                        if (button.isMouseXUp)
+                        {
+                            cam.mouseSensHorizontal += 150f;
+                        }
+
+                        if (button.isMouseXDown)
+                        {
+                            cam.mouseSensHorizontal -= 150f;
+
+                        }
+
+                        if (button.isMouseYUp)
+                        {
+                            cam.mouseSensVertical += 150f;
+                        }
+
+                        if (button.isMouseYDown)
+                        {
+                            cam.mouseSensVertical -= 150f;
+                        }
+                    }
                 }
             }
         }

@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
 
     public float reactionTime = 10;
     //this is so the unity value doesnt change
-    private float ActualSpawnTimer = 0f;
+    public float ActualSpawnTimer = 0f;
     private float timer = 0;
     
     private float xMin = -20f;
@@ -23,9 +23,9 @@ public class Spawner : MonoBehaviour
     private float yMin = 2f;
     private float yMax = 14f;
 
-    private bool SpawnRun = true;
-    private bool MiddleSpawn = false;
-    private bool TargetPractice = false;
+    public bool SpawnRun = true;
+    public bool MiddleSpawn = false;
+    public bool TargetPractice = false;
 
     void Start()
     {
