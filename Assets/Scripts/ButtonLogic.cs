@@ -16,4 +16,5 @@ public class ButtonLogic : MonoBehaviour
     public bool isMouseXDown = false;
     public bool isMouseYDown = false;
     public bool isExit = false;
+    public bool isRope = false;
 }

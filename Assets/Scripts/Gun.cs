@@ -57,6 +57,14 @@ public class Gun : MonoBehaviour
                         Vector3 move = direction * forceOfBullet;
                         hit.rigidbody.AddForceAtPosition(-move, hit.point);
                     }
+                    else if (hit.transform.tag == "Target")
+                    {
+                        Vector3 direction = Vector3.Normalize(transform.position - temp.transform.position);
+                        Vector3 move = direction * forceOfBullet * 3;
+                        temp.AddForceAtPosition(-move, hit.point);
+                        Destroy(hit.transform.gameObject, 0.5f);
+                        spawner.hitAmount++;
+                    }
                     else
                     {
                         Vector3 direction = Vector3.Normalize(transform.position - temp.transform.position);
@@ -76,20 +84,30 @@ public class Gun : MonoBehaviour
                             spawner.SpawnRun = true;
                             spawner.MiddleSpawn = false;
                             spawner.TargetPractice = false;
+                            spawner.spawnRope = false;
                         }
                         if (button.isMiddleSpawn)
                         {
                             spawner.SpawnRun = false;
                             spawner.MiddleSpawn = true;
                             spawner.TargetPractice = false;
+                            spawner.spawnRope = false;
                         }
                         if (button.isTargetSpawn)
                         {
                             spawner.SpawnRun = false;
                             spawner.MiddleSpawn = false;
                             spawner.TargetPractice = true;
+                            spawner.spawnRope = false;
                         }
 
+                        if (button.isRope)
+                        {
+                            spawner.SpawnRun = false;
+                            spawner.MiddleSpawn = false;
+                            spawner.TargetPractice = false;
+                            spawner.spawnRope = true;
+                        }
                         if (button.isSpawnIncrease)
                         {
                             spawner.ActualSpawnTimer -= 0.4f;

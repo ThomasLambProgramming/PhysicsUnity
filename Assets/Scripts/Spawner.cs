@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour
     public GameObject enemyPrefab = null;
     public GameObject IdlePrefab = null;
     public GameObject TargetPrefab = null;
+    public GameObject RopeObject = null;
     public float SpawnTimer = 1f;
 
     public float reactionTime = 10;
@@ -19,12 +20,12 @@ public class Spawner : MonoBehaviour
     private float xMin = -20f;
     private float xMax = 20f;
     
-    private float zMin = -13f;
+    private float zMin = -10f;
     private float zMax = 20f;
 
     private float yMin = 2f;
     private float yMax = 7f;
-
+    public bool spawnRope = false;
     public bool SpawnRun = true;
     public bool MiddleSpawn = false;
     public bool TargetPractice = false;
@@ -38,9 +39,10 @@ public class Spawner : MonoBehaviour
     public float EnemysSpawned = 0f;
     
     public float hitAmount = 0f;
-
+    
     public GameObject ResultGameObject = null;
     public TextMeshProUGUI winText = null;
+    
     void Start()
     {
         ActualSpawnTimer = SpawnTimer;
@@ -51,12 +53,13 @@ public class Spawner : MonoBehaviour
         
         timer += Time.deltaTime;
         if (Startwave)
+        {
             waveTimer += Time.deltaTime;
+        }
         if (Input.GetButtonDown("Fire1") && Startwave)
         {
             clicks++;
         }
-        GetInput();
         if (timer > ActualSpawnTimer)
         {
             timer = 0f;
@@ -64,10 +67,10 @@ public class Spawner : MonoBehaviour
             {
                 if (waveTimer > waveTime)
                 {
+                    
                     waveTimer = 0f;
                     Startwave = false;
                     WaveOver = true;
-                    Debug.Log((int)(hitAmount / clicks * 100));
                     if (winText != null)
                     {
                         ResultGameObject.SetActive(true);
@@ -93,6 +96,8 @@ public class Spawner : MonoBehaviour
                         SpawnMiddle();
                     else if (TargetPractice)
                         SpawnTarget();
+                    else if (spawnRope)
+                        SpawnRope();
                     EnemysSpawned++;
                 }
             }
@@ -128,38 +133,11 @@ public class Spawner : MonoBehaviour
         GameObject temp = Instantiate(TargetPrefab, spawnPos, transform.rotation);
         Destroy(temp, reactionTime);
     }
-    private void GetInput()
+
+    void SpawnRope()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            SpawnRun = true;
-            MiddleSpawn = false;
-            TargetPractice = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            SpawnRun = false;
-            MiddleSpawn = true;
-            TargetPractice = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            SpawnRun = false;
-            MiddleSpawn = false;
-            TargetPractice = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ActualSpawnTimer = SpawnTimer;
-        }
-
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            ActualSpawnTimer = 0f;
-        }
+        Vector3 spawnPos = new Vector3(Random.Range(xMin, xMax), Random.Range( yMin + 5f, yMax), Random.Range(zMin, zMax));
+        GameObject temp = Instantiate(RopeObject, spawnPos, RopeObject.transform.rotation);
+        Destroy(temp, reactionTime);
     }
-
 }

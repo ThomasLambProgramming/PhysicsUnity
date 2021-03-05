@@ -33,7 +33,10 @@ public class Player : MonoBehaviour
         float z = Input.GetAxis("Vertical");
         //if the velocity is 0 then -1 is set so it does not affect the jump force
         if (isGrounded && velocity.y < 0)
+        {
+
             velocity.y = -1.0f;
+        }
         
         Vector3 move = transform.right * x + transform.forward * z;
         if (transform.position.z > zLimit && move.z > 0)

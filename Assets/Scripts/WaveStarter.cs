@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
 
 public class WaveStarter : MonoBehaviour
@@ -13,7 +13,7 @@ public class WaveStarter : MonoBehaviour
         {
             if (spawner.WaveOver && spawner.PlayerLeftSpawner)
             {
-                if (spawner.SpawnRun || spawner.MiddleSpawn || spawner.TargetPractice)
+                if (spawner.SpawnRun || spawner.MiddleSpawn || spawner.TargetPractice || spawner.spawnRope)
                 {
                     spawner.Startwave = true;
                     spawner.WaveOver = false;

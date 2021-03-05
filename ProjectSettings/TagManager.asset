@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Lights
+  - Target
   layers:
   - Default
   - TransparentFX
