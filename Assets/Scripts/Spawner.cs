@@ -51,6 +51,10 @@ public class Spawner : MonoBehaviour
     void Update()
     {
         
+        if (ActualSpawnTimer <= 0.3f)
+        {
+            ActualSpawnTimer = 0.3f;
+        }
         timer += Time.deltaTime;
         if (Startwave)
         {
@@ -136,7 +140,7 @@ public class Spawner : MonoBehaviour
 
     void SpawnRope()
     {
-        Vector3 spawnPos = new Vector3(Random.Range(xMin, xMax), Random.Range( yMin + 5f, yMax), Random.Range(zMin, zMax));
+        Vector3 spawnPos = new Vector3(Random.Range(-9f, 19f), Random.Range( 8f, 13.4f), Random.Range(zMin, zMax));
         GameObject temp = Instantiate(RopeObject, spawnPos, RopeObject.transform.rotation);
         Destroy(temp, reactionTime);
     }
