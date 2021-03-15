@@ -16,15 +16,12 @@ public class Player : MonoBehaviour
 
     public Vector3 velocity = new Vector3(0,0,0);
     bool isGrounded = true;
-
-    public float moveObjectForce = 10f;
-
+    private bool holdingSpace = false;
+    
+    
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-    
-    
-    
     
     // Update is called once per frame
     void Update()
@@ -34,36 +31,29 @@ public class Player : MonoBehaviour
         float z = Input.GetAxis("Vertical");
         //if the velocity is 0 then -1 is set so it does not affect the jump force
         if (isGrounded && velocity.y < 0)
-        {
-
             velocity.y = -1.0f;
-        }
-        
+
         Vector3 move = transform.right * x + transform.forward * z;
         if (transform.position.z > zLimit && move.z > 0)
-        {
             move.z = 0f;
-        }
+
         controller.Move(move * (speed * Time.deltaTime));
 
-        
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            holdingSpace = true;
             velocity.y = jumpForce;
-            
+        }
+        
+        if (Input.GetKeyUp(KeyCode.Space))
+            holdingSpace = false;
+
+        if (!isGrounded && !holdingSpace)
+        {
+            velocity.y += gravity * Time.deltaTime;
         }
         
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-    }
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.transform.tag == "Crate")
-        {
-            Vector3 direction = Vector3.Normalize(other.transform.position - transform.position);
-            direction.y = 0;
-            direction = direction * moveObjectForce;
-            other.rigidbody.AddForce(direction);
-        }
     }
 }
