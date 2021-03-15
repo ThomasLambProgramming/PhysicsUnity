@@ -20,6 +20,10 @@ public class Gun : MonoBehaviour
     
     public float forceOfBullet = 10f;
     public float range = 1000f;
+
+    //this is so people cant mass click the sens and have it be all weird
+    public float minSens = 100f;
+    public float maxSens = 3000f;
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -126,22 +130,37 @@ public class Gun : MonoBehaviour
                         if (button.isMouseXUp)
                         {
                             cam.mouseSensHorizontal += 150f;
+                            if (cam.mouseSensHorizontal > maxSens)
+                            {
+                                cam.mouseSensHorizontal = maxSens;
+                            }
                         }
 
                         if (button.isMouseXDown)
                         {
                             cam.mouseSensHorizontal -= 150f;
-
+                            if (cam.mouseSensHorizontal < minSens)
+                            {
+                                cam.mouseSensHorizontal = minSens;
+                            }
                         }
 
                         if (button.isMouseYUp)
                         {
-                            cam.mouseSensVertical += 150f;
+                            cam.mouseSensVertical+= 150f;
+                            if (cam.mouseSensVertical > maxSens)
+                            {
+                                cam.mouseSensVertical = maxSens;
+                            }
                         }
 
                         if (button.isMouseYDown)
                         {
                             cam.mouseSensVertical -= 150f;
+                            if (cam.mouseSensVertical < minSens)
+                            {
+                                cam.mouseSensVertical = minSens;
+                            }
                         }
 
                         if (button.isExit)

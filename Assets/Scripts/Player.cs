@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public Vector3 velocity = new Vector3(0,0,0);
     bool isGrounded = true;
 
+    public float moveObjectForce = 10f;
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -54,5 +55,15 @@ public class Player : MonoBehaviour
         
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.transform.tag == "Crate")
+        {
+            Vector3 direction = Vector3.Normalize(other.transform.position - transform.position);
+            direction.y = 0;
+            direction = direction * moveObjectForce;
+            other.rigidbody.AddForce(direction);
+        }
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Lights
   - Target
+  - Crate
   layers:
   - Default
   - TransparentFX
