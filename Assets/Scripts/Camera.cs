@@ -12,26 +12,34 @@ public class Camera : MonoBehaviour
     private float xRotation = 0f;
 
     public TextMeshProUGUI text;
-    
-    
+
+    float mouseX = 0f;
+    float mouseY = 0f;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
-
-    // Update is called once per frame
-    void FixedUpdate()
+    private void Update()
     {
-        text.text = "Mouse Sens X : " + mouseSensHorizontal + "\n" + "Mouse Sens Y : " +  mouseSensVertical;
-        
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensHorizontal;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensVertical;
-        xRotation -= mouseY * Time.deltaTime;
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
+        text.text = "Mouse Sens X : " + mouseSensHorizontal + "\n" + "Mouse Sens Y : " + mouseSensVertical;
+
+        float X = mouseX * mouseSensHorizontal;
+        float Y = mouseY * mouseSensVertical;
+
+        xRotation -= Y * Time.deltaTime;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        player.Rotate(Vector3.up * (mouseX * Time.deltaTime));
+        player.Rotate(Vector3.up * (X * Time.deltaTime));
+
+        
+
+
     }
+
+ 
 
     
 }

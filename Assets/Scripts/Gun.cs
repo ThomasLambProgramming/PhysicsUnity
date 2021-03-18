@@ -7,7 +7,7 @@ public class Gun : MonoBehaviour
     public Spawner spawner = null;
     public GameObject CameraGameObject = null;
     private Camera cam = null;
-
+    public Grenade grenade;
     //public GameObject cubeTest;
     public new Transform camera;
     public Transform feetSpawn;
@@ -20,7 +20,7 @@ public class Gun : MonoBehaviour
     
     public float forceOfBullet = 10f;
     public float range = 1000f;
-
+    
     //this is so people cant mass click the sens and have it be all weird
     public float minSens = 100f;
     public float maxSens = 3000f;
@@ -28,20 +28,30 @@ public class Gun : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            //Shoot();
-            MakeRagdoll();
+            RaycastHit hit;
+            if (Physics.Raycast(camera.position, camera.forward, out hit))
+            {
+                if (hit.transform.tag == "Button" && hit.distance < 2f)
+                {
+                    grenade.Explode();
+                }
+                else
+                {
+                    MakeRagdoll(hit);
+                }
+
+                //Shoot();
         }
+       
     }
 
     void Start()
     {
         cam = CameraGameObject.GetComponent<Camera>();
     }
-    void MakeRagdoll()
+    void MakeRagdoll(RaycastHit hit)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(camera.position, camera.forward, out hit))
-        {
+        
             Enemy ragdoll = hit.transform.gameObject.GetComponentInParent<Enemy>();
             if (ragdoll != null)
             {
@@ -83,34 +93,37 @@ public class Gun : MonoBehaviour
                     ButtonLogic button = hit.transform.gameObject.GetComponentInParent<ButtonLogic>();
                     if (button != null)
                     {
-                        if (button.isRunSpawn)
+                        if (spawner.WaveOver)
                         {
-                            spawner.SpawnRun = true;
-                            spawner.MiddleSpawn = false;
-                            spawner.TargetPractice = false;
-                            spawner.spawnRope = false;
-                        }
-                        if (button.isMiddleSpawn)
-                        {
-                            spawner.SpawnRun = false;
-                            spawner.MiddleSpawn = true;
-                            spawner.TargetPractice = false;
-                            spawner.spawnRope = false;
-                        }
-                        if (button.isTargetSpawn)
-                        {
-                            spawner.SpawnRun = false;
-                            spawner.MiddleSpawn = false;
-                            spawner.TargetPractice = true;
-                            spawner.spawnRope = false;
-                        }
+                            if (button.isRunSpawn)
+                            {
+                                spawner.SpawnRun = true;
+                                spawner.MiddleSpawn = false;
+                                spawner.TargetPractice = false;
+                                spawner.spawnRope = false;
+                            }
+                            if (button.isMiddleSpawn)
+                            {
+                                spawner.SpawnRun = false;
+                                spawner.MiddleSpawn = true;
+                                spawner.TargetPractice = false;
+                                spawner.spawnRope = false;
+                            }
+                            if (button.isTargetSpawn)
+                            {
+                                spawner.SpawnRun = false;
+                                spawner.MiddleSpawn = false;
+                                spawner.TargetPractice = true;
+                                spawner.spawnRope = false;
+                            }
 
-                        if (button.isRope)
-                        {
-                            spawner.SpawnRun = false;
-                            spawner.MiddleSpawn = false;
-                            spawner.TargetPractice = false;
-                            spawner.spawnRope = true;
+                            if (button.isRope)
+                            {
+                                spawner.SpawnRun = false;
+                                spawner.MiddleSpawn = false;
+                                spawner.TargetPractice = false;
+                                spawner.spawnRope = true;
+                            }
                         }
                         if (button.isSpawnIncrease)
                         {
@@ -122,10 +135,7 @@ public class Gun : MonoBehaviour
                             spawner.ActualSpawnTimer += 0.4f;
                         }
 
-                        if (button.isSuperSpawn)
-                        {
-                            spawner.ActualSpawnTimer = 0.0f;
-                        }
+                        
 
                         if (button.isMouseXUp)
                         {

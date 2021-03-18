@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     private Animator animator = null;
     public List<Rigidbody> Rigidbodies = new List<Rigidbody>();
     [SerializeField] Rigidbody ChestBody = null;
+    public float deleteTime = 4f;
     public bool ragdollOn
     {
         get
@@ -36,5 +37,9 @@ public class Enemy : MonoBehaviour
     {
         ragdollOn = true;
         ChestBody.AddForce(direction);
+    }
+    public void Kill()
+    {
+        Destroy(gameObject, deleteTime);
     }
 }

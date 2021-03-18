@@ -80,9 +80,7 @@ public class Spawner : MonoBehaviour
                         ResultGameObject.SetActive(true);
                         if (clicks == 0 || hitAmount == 0)
                         {
-                            winText.text = "Your accuracy was 0 you hit nothing\n"
-                                           + "The amount of Enemies was " + (int)EnemysSpawned + "\n " +
-                                           "Please press enter to remove text";
+                            winText.text = "You hit nothing....\n";
                         }
                         else
                         {
@@ -147,12 +145,12 @@ public class Spawner : MonoBehaviour
 
     public void SpawnBall()
     {
-        for (int i = 0; i < 30;)
+        int spawnAmount = 0;
+        while (spawnAmount < 15)
         {
-
-        Vector3 spawnPos = new Vector3(Random.Range(-4, 4), 0, Random.Range(-4, 4));
-        GameObject temp = Instantiate(IdlePrefab, spawnPos, transform.rotation);
-        Destroy(temp, 4f);
+            Vector3 spawnPos = new Vector3(Random.Range(-4, 4), 0, Random.Range(-4, 4));
+            GameObject temp = Instantiate(IdlePrefab, spawnPos, transform.rotation);
+            spawnAmount++;
         }
     }
 }

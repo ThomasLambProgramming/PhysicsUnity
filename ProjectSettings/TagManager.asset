@@ -8,6 +8,7 @@ TagManager:
   - Target
   - Crate
   - Ball
+  - Button
   layers:
   - Default
   - TransparentFX
