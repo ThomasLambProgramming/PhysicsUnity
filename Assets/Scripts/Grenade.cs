@@ -8,22 +8,21 @@ public class Grenade : MonoBehaviour
     public float ExplosionRadius = 30f;
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Collider[] collider = Physics.OverlapSphere(transform.position, ExplosionRadius);
+    
 
-            foreach (Collider c in collider)
+    public void Explode()
+    {
+        Collider[] collider = Physics.OverlapSphere(transform.position, ExplosionRadius);
+
+        foreach (Collider c in collider)
+        {
+            Enemy enemy = c.GetComponentInParent<Enemy>();
+            if (enemy != null)
             {
-                Enemy enemy = c.GetComponentInParent<Enemy>();
-                if (enemy != null)
-                {
-                    float CollisionDistance = Vector3.Distance(transform.position, c.transform.position);
-                    float forceAmount = ExplosionForce / CollisionDistance;
-                    Vector3 force = Vector3.Normalize(c.transform.position - transform.position) * forceAmount;
-                    enemy.ApplyExplosion(force);
-                }
+                float CollisionDistance = Vector3.Distance(transform.position, c.transform.position);
+                float forceAmount = ExplosionForce / CollisionDistance;
+                Vector3 force = Vector3.Normalize(c.transform.position - transform.position) * forceAmount;
+                enemy.ApplyExplosion(force);
             }
         }
     }

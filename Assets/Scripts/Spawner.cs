@@ -144,4 +144,15 @@ public class Spawner : MonoBehaviour
         GameObject temp = Instantiate(RopeObject, spawnPos, RopeObject.transform.rotation);
         Destroy(temp, reactionTime);
     }
+
+    public void SpawnBall()
+    {
+        for (int i = 0; i < 30;)
+        {
+
+        Vector3 spawnPos = new Vector3(Random.Range(-4, 4), 0, Random.Range(-4, 4));
+        GameObject temp = Instantiate(IdlePrefab, spawnPos, transform.rotation);
+        Destroy(temp, 4f);
+        }
+    }
 }
