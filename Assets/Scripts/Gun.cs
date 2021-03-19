@@ -37,10 +37,11 @@ public class Gun : MonoBehaviour
                 }
                 else
                 {
-                    MakeRagdoll(hit);
+                    MakeRagdoll(ref hit);
                 }
 
                 //Shoot();
+            }
         }
        
     }
@@ -49,7 +50,7 @@ public class Gun : MonoBehaviour
     {
         cam = CameraGameObject.GetComponent<Camera>();
     }
-    void MakeRagdoll(RaycastHit hit)
+    void MakeRagdoll(ref RaycastHit hit)
     {
         
             Enemy ragdoll = hit.transform.gameObject.GetComponentInParent<Enemy>();
@@ -212,4 +213,4 @@ public class Gun : MonoBehaviour
     //     Destroy(temp1, 2.0f);
     //     
     // }
-}
+
